@@ -7,26 +7,18 @@ columns:
   region : category
   expenses : float
 
-independent_columns:
-  age : int
-  sex : category
-  bmi : float
-  children : int
-  smoker : category
-  region : category
   
 numerical_columns:
   - age
   - bmi
   - children
-  - expenses
 
 categorical_columns:
   - sex
   - smoker
   - region
 
-taget_column: expenses
+target_column: expenses
 
 domain_value:
   sex:

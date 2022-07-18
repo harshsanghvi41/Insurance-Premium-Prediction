@@ -68,7 +68,7 @@ class DataValidation:
             test_df = pd.read_csv(self.data_ingestion_artifact.test_file_path)
 
             # reading column names from schema.yaml file
-            dict = read_yaml_file(file_path = r'C:\Users\harsh\Insurance-Premium-Prediction\config\schema.yaml')['independent_columns']
+            dict = read_yaml_file(file_path = r'C:\Users\harsh\Insurance-Premium-Prediction\config\schema.yaml')['columns']
             
             schema_file_columns = []
             for key in dict.keys():
