@@ -8,3 +8,5 @@ Application URL : [InsurancePremiumPredictor](https://premium-prediction-app.her
 2. [Heroku Account](https://id.heroku.com/login)
 3. [VS Code IDE](https://code.visualstudio.com/download)
 4. [GIT CLI](https://git-scm.com/downloads)
+
+

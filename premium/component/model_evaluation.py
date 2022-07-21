@@ -10,16 +10,16 @@ import numpy as np
 
 
 class ModelEvaluation:
-    def __init__(self, data_ingestion_artifact : DataIngestionArtifact,
-                data_validation_artifact : DataValidationArtifact,
-                model_trainer_artifact: ModelTrainerArtifact,
-                model_evaluation_config : ModelEvaluationConfig) -> None:
+    def __init__(self, model_evaluation_config: ModelEvaluationConfig,
+                 data_ingestion_artifact: DataIngestionArtifact,
+                 data_validation_artifact: DataValidationArtifact,
+                 model_trainer_artifact: ModelTrainerArtifact):
         try:
             logging.info(f"{'=' * 30}Model Evaluation log started.{'=' * 30} ")
+            self.model_evaluation_config = model_evaluation_config
+            self.model_trainer_artifact = model_trainer_artifact
             self.data_ingestion_artifact = data_ingestion_artifact
             self.data_validation_artifact = data_validation_artifact
-            self.model_trainer_artifact = model_trainer_artifact
-            self.model_evaluation_config = model_evaluation_config
 
         except Exception as e:
             raise PremiumException(e,sys) from e
@@ -31,7 +31,7 @@ class ModelEvaluation:
             model_evaluation_file_path = self.model_evaluation_config.model_evaluation_file_path
             
             if not os.path.exists(model_evaluation_file_path):
-                write_yaml_file(file_path=model_evaluation_file_path)
+                write_yaml_file(file_path=model_evaluation_file_path,)
                 return model
 
             model_eval_file_content = read_yaml_file(file_path=model_evaluation_file_path)
@@ -42,7 +42,6 @@ class ModelEvaluation:
                 return model
 
             model = load_object(file_path=model_eval_file_content[BEST_MODEL_KEY][MODEL_PATH_KEY])
-
             return model
 
         except Exception as e:
@@ -90,12 +89,12 @@ class ModelEvaluation:
             trained_model_file_path = self.model_trainer_artifact.trained_model_file_path
             trained_model_object = load_object(file_path=trained_model_file_path)
 
-            trained_file_path = self.data_ingestion_artifact.train_file_path
+            train_file_path = self.data_ingestion_artifact.train_file_path
             test_file_path = self.data_ingestion_artifact.test_file_path
 
             schema_file_path = self.data_validation_artifact.schema_file_path
 
-            train_dataframe = load_data(file_path = trained_file_path, schema_file_path = schema_file_path)
+            train_dataframe = load_data(file_path = train_file_path, schema_file_path = schema_file_path)
             test_dataframe = load_data(file_path = test_file_path, schema_file_path = schema_file_path)
 
             schema_content = read_yaml_file(file_path=schema_file_path)
@@ -116,8 +115,9 @@ class ModelEvaluation:
             model = self.get_best_model()
 
             if model is None:
-                model_evaluation_artifact = ModelEvaluationArtifact(is_model_accepted=True,
-                                                   evaluated_model_path=trained_model_file_path)
+                logging.info("Not found any existing model. Hence accepting trained model")
+                model_evaluation_artifact = ModelEvaluationArtifact(evaluated_model_path=trained_model_file_path,
+                                                                    is_model_accepted=True)
 
                 self.update_evaluation_report(model_evaluation_artifact)
                 logging.info(f"Model accepted. Model eval artifact {model_evaluation_artifact} created")
@@ -128,7 +128,7 @@ class ModelEvaluation:
             metric_info_artifact = evaluate_regression_model(model_list = model_list,
                                                             X_train = train_dataframe,
                                                             y_train = train_target_arr,
-                                                            X_test = test_target_arr,
+                                                            X_test = test_dataframe,
                                                             y_test = test_target_arr,
                                                             base_accuracy = self.model_trainer_artifact.model_accuracy)
 

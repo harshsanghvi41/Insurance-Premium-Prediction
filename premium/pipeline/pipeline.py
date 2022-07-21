@@ -1,4 +1,3 @@
-from sklearn import pipeline
 from premium.component.data_ingestion import DataIngestion
 from premium.component.data_transformation import DataTransformation
 from premium.component.data_validation import DataValidation
@@ -37,25 +36,30 @@ class Pipeline(Thread):
             Pipeline.experiment_file_path=os.path.join(config.training_pipeline_config.artifact_dir,EXPERIMENT_DIR_NAME, EXPERIMENT_FILE_NAME)
             super().__init__(daemon=False, name="pipeline")
             self.config = config
+
         except Exception as e:
             raise PremiumException(e, sys) from e
+
 
     def start_data_ingestion(self) -> DataIngestionArtifact:
         try:
             data_ingestion = DataIngestion(data_ingestion_config=self.config.get_data_ingestion_config())
             return data_ingestion.initiate_data_ingestion()
+
         except Exception as e:
             raise PremiumException(e, sys) from e
 
-    def start_data_validation(self, data_ingestion_artifact: DataIngestionArtifact) \
-            -> DataValidationArtifact:
+
+    def start_data_validation(self, data_ingestion_artifact: DataIngestionArtifact) -> DataValidationArtifact:
         try:
             data_validation = DataValidation(data_validation_config=self.config.get_data_validation_pipeline_config(),
                                              data_ingestion_artifact=data_ingestion_artifact
                                              )
             return data_validation.initiate_data_validation()
+
         except Exception as e:
             raise PremiumException(e, sys) from e
+
 
     def start_data_transformation(self,
                                   data_ingestion_artifact: DataIngestionArtifact,
@@ -68,6 +72,7 @@ class Pipeline(Thread):
                 data_validation_artifact=data_validation_artifact
             )
             return data_transformation.initiate_data_transformation()
+
         except Exception as e:
             raise PremiumException(e, sys)
 
@@ -78,6 +83,7 @@ class Pipeline(Thread):
                                          data_transformation_artifact=data_transformation_artifact
                                          )
             return model_trainer.initiate_model_trainer()
+
         except Exception as e:
             raise PremiumException(e, sys) from e
 
@@ -87,23 +93,27 @@ class Pipeline(Thread):
                                model_trainer_artifact: ModelTrainerArtifact) -> ModelEvaluationArtifact:
         try:
             model_eval = ModelEvaluation(
-                model_evaluation_config=self.config.get_model_evaluation_config(),
-                data_ingestion_artifact=data_ingestion_artifact,
-                data_validation_artifact=data_validation_artifact,
-                model_trainer_artifact=model_trainer_artifact)
+                model_evaluation_config = self.config.get_model_evaluation_config(),
+                data_ingestion_artifact = data_ingestion_artifact,
+                data_validation_artifact = data_validation_artifact,
+                model_trainer_artifact = model_trainer_artifact)
             return model_eval.initiate_model_evaluation()
+
         except Exception as e:
             raise PremiumException(e, sys) from e
+
 
     def start_model_pusher(self, model_eval_artifact: ModelEvaluationArtifact) -> ModelPusherArtifact:
         try:
             model_pusher = ModelPusher(
-                model_pusher_config=self.config.get_model_pusher_config(),
-                model_evaluation_artifact=model_eval_artifact
+                model_pusher_config = self.config.get_model_pusher_config(),
+                model_evaluation_artifact = model_eval_artifact
             )
             return model_pusher.initiate_model_pusher()
+
         except Exception as e:
             raise PremiumException(e, sys) from e
+
 
     def run_pipeline(self):
         try:
@@ -127,6 +137,7 @@ class Pipeline(Thread):
                                              message="Pipeline has been started.",
                                              accuracy=None,
                                              )
+
             logging.info(f"Pipeline experiment: {Pipeline.experiment}")
 
             self.save_experiment()
@@ -163,10 +174,13 @@ class Pipeline(Thread):
                                              is_model_accepted=model_evaluation_artifact.is_model_accepted,
                                              accuracy=model_trainer_artifact.model_accuracy
                                              )
+
             logging.info(f"Pipeline experiment: {Pipeline.experiment}")
             self.save_experiment()
+
         except Exception as e:
             raise PremiumException(e, sys) from e
+
 
     def run(self):
         try:
@@ -194,8 +208,10 @@ class Pipeline(Thread):
                     experiment_report.to_csv(Pipeline.experiment_file_path, mode="w", index=False, header=True)
             else:
                 print("First start experiment")
+
         except Exception as e:
             raise PremiumException(e, sys) from e
+
 
     @classmethod
     def get_experiments_status(cls, limit: int = 5) -> pd.DataFrame:
@@ -206,5 +222,6 @@ class Pipeline(Thread):
                 return df[limit:].drop(columns=["experiment_file_path", "initialization_timestamp"], axis=1)
             else:
                 return pd.DataFrame()
+                
         except Exception as e:
             raise PremiumException(e, sys) from e
