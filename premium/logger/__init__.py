@@ -22,7 +22,7 @@ format = '[%(asctime)s] - %(levelname)s - %(lineno)d - %(filename)s - %(funcName
 level = logging.INFO
 )
 
-"""def get_log_dataframe(file_path):
+def get_log_dataframe(file_path):
     data = []
     with open(file_path) as log_file:
         for line in log_file.readlines():
@@ -34,6 +34,6 @@ level = logging.INFO
     
     log_df["log_message"] = log_df['Time stamp'].astype(str) +":$"+ log_df["message"]
 
-    return log_df[["log_message"]]"""
+    return log_df[["log_message"]]
 
 

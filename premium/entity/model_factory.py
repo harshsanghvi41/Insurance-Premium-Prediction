@@ -1,3 +1,4 @@
+from cmath import log
 import importlib
 from pyexpat import model
 import numpy as np
@@ -221,6 +222,7 @@ class ModelFactory:
         try:
             # load the module, will raise ImportError if module cannot be loaded
             module = importlib.import_module(module_name)
+            
             # get the class, will raise AttributeError if class cannot be found
             logging.info(f"Executing command: from {module} import {class_name}")
             class_ref = getattr(module, class_name)

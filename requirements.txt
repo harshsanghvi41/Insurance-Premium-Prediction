@@ -9,5 +9,5 @@ dill
 matplotlib
 seaborn
 nbformat
-ipykernal
+ipykernel
 -e .

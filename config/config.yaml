@@ -4,7 +4,7 @@ training_pipeline_config:
 
 
 data_ingestion_config:
-  dataset_download_url : https://raw.githubusercontent.com/harshsanghvi41/Datasets/main/insurance.csv
+  dataset_download_url : https://drive.google.com/uc?id=1qtTSxGs_yRfje3rFUuzDnQzSovgCkPKh&export=download
   tgz_download_dir : tgz_data
   raw_data_dir : raw_data
   ingested_dir : ingested_data
@@ -35,3 +35,9 @@ model_trainer_config:
   model_config_file_name: model.yaml
 
 
+model_evaluation_config:
+  model_evaluation_file_name: model_evaluation.yaml
+
+
+model_pusher_config:
+  model_export_dir: saved_models

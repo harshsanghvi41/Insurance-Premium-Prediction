@@ -120,7 +120,7 @@ class DataIngestion:
 
     def initiate_data_ingestion(self) -> DataIngestionArtifact:
         try:
-            tgz_file_path = self.download_premium_data()
+            raw_data_file_path = self.download_premium_data()
             #self.extract_tgz_file(tgz_file_path=tgz_file_path)
             return self.split_data_as_train_test()
 
