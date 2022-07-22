@@ -1,14 +1,14 @@
 Application URL : [InsurancePremiumPredictor](https://premium-prediction-app.herokuapp.com/)
 
 ## Table of contents
-* [About this project](#about-this-project)
+* [About project](#about-project)
 * [Technologies](#technologies)
 * [Software and account requirement](#software-and-account-requirement)
 * [Setup](#setup)
 * [Project Pipeline](#project-pipeline)
 <!-- * [License](#license) -->
 
-## About this project
+## About project
 This app predicts Insurance premium price based on some data.
 
 
@@ -87,17 +87,3 @@ pip install -r requirements.txt
 <p align="center">
   <img src="https://lh5.googleusercontent.com/49NljwFVuPL1zR5z6rrBsLh8fEQBDTLCmG9Z9xScq1sLWdtR89KhtKS702hUDN566WIE42eems8Fb_y0jbb6N7Cv-noJ_W3pt7JDlblCE_0POna1AUAZ6aSNERqPC9nfMFrXL8g"/>
 
-</p>
-<!DOCTYPE html>
-<html>
-<head>
-<style>
-p {text-align: center;}
-</style>
-</head>
-<body>
-
-<p>Image Creadit: Analytics Vidhya</p>
-
-</body>
-</html>
