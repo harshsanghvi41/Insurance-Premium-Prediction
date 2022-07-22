@@ -1,14 +1,14 @@
 Application URL : [InsurancePremiumPredictor](https://premium-prediction-app.herokuapp.com/)
 
 ## Table of contents
-* [General info](#general-information)
+* [About this project](#about-this-project)
 * [Technologies](#technologies)
 * [Software and account requirement](#software-and-account-requirement)
 * [Setup](#setup)
 * [Project Pipeline](#project-pipeline)
 <!-- * [License](#license) -->
 
-## General Information
+## About this project
 This app predicts Insurance premium price based on some data.
 
 
@@ -32,9 +32,13 @@ This project is created with below technologies/tools/resorces:
 
 
 ## Setup
-Create and activate a conda environment
+Create a conda environment
 ```
 conda create -p venv python==3.7 -y
+```
+
+activate conda environment
+```
 conda activate venv/
 ```
 
@@ -43,7 +47,7 @@ To install requirement file
 pip install -r requirements.txt
 ```
 
-* Add files to git  `git add .` OR  `git add <file_name>`    
+* Add files to git  `git add .` or  `git add <file_name>`    
 * To check the git status  `git status`    
 * To check all version maintained by git  `git log`    
 * To create version/commit all changes by git  `git commit -m "message"`    
@@ -80,8 +84,20 @@ pip install -r requirements.txt
 * Deployment is the method by which we integrate a machine learning model into production environment to make practical business decisions based on data. 
 
 
-![alt text](https://lh5.googleusercontent.com/49NljwFVuPL1zR5z6rrBsLh8fEQBDTLCmG9Z9xScq1sLWdtR89KhtKS702hUDN566WIE42eems8Fb_y0jbb6N7Cv-noJ_W3pt7JDlblCE_0POna1AUAZ6aSNERqPC9nfMFrXL8g)
-
 <p align="center">
   <img src="https://lh5.googleusercontent.com/49NljwFVuPL1zR5z6rrBsLh8fEQBDTLCmG9Z9xScq1sLWdtR89KhtKS702hUDN566WIE42eems8Fb_y0jbb6N7Cv-noJ_W3pt7JDlblCE_0POna1AUAZ6aSNERqPC9nfMFrXL8g"/>
+
 </p>
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+p {text-align: center;}
+</style>
+</head>
+<body>
+
+<p>Image Creadit: Analytics Vidhya</p>
+
+</body>
+</html>
