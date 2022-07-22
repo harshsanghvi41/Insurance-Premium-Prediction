@@ -43,11 +43,11 @@ To install requirement file
 pip install -r requirements.txt
 ```
 
-Add files to git  `git add .` OR  `git add <file_name>`    
-To check the git status  `git status`    
-To check all version maintained by git  `git log`    
-To create version/commit all changes by git  `git commit -m "message"`    
-To send version/changes to github  `git push origin main`    
+* Add files to git  `git add .` OR  `git add <file_name>`    
+* To check the git status  `git status`    
+* To check all version maintained by git  `git log`    
+* To create version/commit all changes by git  `git commit -m "message"`    
+* To send version/changes to github  `git push origin main`    
 
 
 ## Project Pipeline
@@ -81,3 +81,7 @@ To send version/changes to github  `git push origin main`
 
 
 ![alt text](https://lh5.googleusercontent.com/49NljwFVuPL1zR5z6rrBsLh8fEQBDTLCmG9Z9xScq1sLWdtR89KhtKS702hUDN566WIE42eems8Fb_y0jbb6N7Cv-noJ_W3pt7JDlblCE_0POna1AUAZ6aSNERqPC9nfMFrXL8g)
+
+<p align="center">
+  <img src="https://lh5.googleusercontent.com/49NljwFVuPL1zR5z6rrBsLh8fEQBDTLCmG9Z9xScq1sLWdtR89KhtKS702hUDN566WIE42eems8Fb_y0jbb6N7Cv-noJ_W3pt7JDlblCE_0POna1AUAZ6aSNERqPC9nfMFrXL8g"/>
+</p>
