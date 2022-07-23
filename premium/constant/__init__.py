@@ -23,10 +23,10 @@ DATA_INGESTION_CONFIG_KEY = "data_ingestion_config"
 DATA_INGESTION_ARTIFACT_DIR = "data_ingestion"
 DATA_INGESTION_DOWNLOAD_URL_KEY = "dataset_download_url"
 DATA_INGESTION_RAW_DATA_DIR = "raw_data_dir"
+DATA_INGESTION_ZIP_DOWNLOAD_DIR_KEY = "zip_download_dir"
 DATA_INGESTION_INGESTED_DIR_NAME_KEY = "ingested_dir"
 DATA_INGESTION_INGESTED_TRAIN_DIR_KEY = "ingested_train_dir"
 DATA_INGESTION_INGESTED_TEST_DIR_KEY = "ingested_test_dir"
-DATA_INGESTION_TGZ_DOWNLOAD_DIR_KEY = "tgz_download_dir"
 
 
 # Data Validation related variables

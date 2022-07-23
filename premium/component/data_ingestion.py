@@ -3,9 +3,11 @@ from premium.logger import logging
 from premium.entity.config_entity import DataIngestionConfig
 from premium.entity.artifact_entity import DataIngestionArtifact
 import os, sys
+import zipfile
 import numpy as np
 from six.moves import urllib
 import pandas as pd
+from premium.constant import *
 from sklearn.model_selection import StratifiedShuffleSplit
 
 class DataIngestion:
@@ -16,59 +18,50 @@ class DataIngestion:
 
         except Exception as e:
             raise PremiumException(e,sys) from e
+    
 
-    def download_premium_data(self) -> str:
+    def download_premium_data(self):
         try:
             download_url = self.data_ingestion_config.dataset_download_url
 
-            #tgz_download_dir = self.data_ingestion_config.tgz_download_dir
+            zip_download_url = self.data_ingestion_config.zip_download_dir
 
-            raw_data_dir = self.data_ingestion_config.raw_data_dir
-
-            os.makedirs(raw_data_dir, exist_ok=True)
+            os.makedirs(zip_download_url,exist_ok=True)
             premium_file_name = "insurance"
+
+            zip_file_path = os.path.join(zip_download_url, premium_file_name)
+            logging.info(f"Downloading file from :[{download_url}] into :[{zip_file_path}]")
+
+            urllib.request.urlretrieve(download_url, zip_file_path)
+            logging.info(f"File :[{zip_file_path}] has been downloaded successfully.")
             
-            raw_data_file_path = os.path.join(raw_data_dir, premium_file_name)
-
-            logging.info(f"Downloading file from :[{download_url}] into :[{raw_data_file_path}]")
-            urllib.request.urlretrieve(download_url, raw_data_file_path)
-
-            logging.info(f"File :[{raw_data_file_path}] has been downloaded successfully.")
-            return raw_data_file_path
-
+            return zip_file_path
+        
         except Exception as e:
             raise PremiumException(e,sys) from e
 
-    """
-    def extract_tgz_file(self, raw_data_file_path:str):
+
+    def extract_zip_file(self, zip_file_path:str):
         try:
             raw_data_dir = self.data_ingestion_config.raw_data_dir
-            os.makedirs(raw_data_dir, exist_ok = True)
-
-            logging.info(f"Extracting tgz file: [{tgz_file_path}] into dir: [{raw_data_dir}]")
-
-            try:
-                with tarfile.open(tgz_file_path) as housing_tgz_file_obj:
-                    housing_tgz_file_obj.extractall(path=raw_data_dir)
-
-            #with rarfile.open(tgz_file_path) as premium_tgz_file_obj:
-            #    premium_tgz_file_obj.extractall(path=raw_data_dir, members=tgz_file_path)
             
-            #patoolib.extract_archive(tgz_file_path, outdir=raw_data_dir)
-            except:
-                with zipfile.ZipFile(tgz_file_path, "r") as premium_tgz_file_obj:
-                    premium_tgz_file_obj.extractall(path=raw_data_dir)
+            os.makedirs(raw_data_dir, exist_ok=True)
+
+            logging.info(f"Extraction of data started from [{zip_file_path}] into dir :[{raw_data_dir}]")
+            with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
+                zip_ref.extractall(raw_data_dir)
 
             logging.info(f"Extraction completed")
 
         except Exception as e:
-            raise PremiumException(e,sys) from e"""
+            raise PremiumException(e,sys) from e
 
 
     def split_data_as_train_test(self) -> DataIngestionArtifact:
         try:
             raw_data_dir = self.data_ingestion_config.raw_data_dir
-            file_name = "insurance"
+            #file_name = "insurance"
+            file_name = os.listdir(raw_data_dir)[0]
 
             premium_file_path = os.path.join(raw_data_dir, file_name)
 
@@ -76,8 +69,8 @@ class DataIngestion:
 
             premium_data_frame = pd.read_csv(premium_file_path)
 
-            premium_data_frame["cat_age"] = pd.cut(
-                premium_data_frame["age"],
+            premium_data_frame["bmi_category"] = pd.cut(
+                premium_data_frame["bmi"],
                 bins = [0.0, 20.0, 30.0, 40.0, 50.0, np.inf],
                 labels = [1,2,3,4,5]
             )
@@ -87,11 +80,11 @@ class DataIngestion:
             strat_train_set = None
             strat_test_set = None
 
-            split = StratifiedShuffleSplit(n_splits=1, test_size = 0.2)
+            split = StratifiedShuffleSplit(n_splits=1, test_size = 0.3, random_state=42)
 
-            for train_index,test_index in split.split(premium_data_frame, premium_data_frame["cat_age"]):
-                strat_train_set = premium_data_frame.loc[train_index].drop(["cat_age"],axis=1)
-                strat_test_set = premium_data_frame.loc[test_index].drop(["cat_age"],axis=1)
+            for train_index,test_index in split.split(premium_data_frame, premium_data_frame["bmi_category"]):
+                strat_train_set = premium_data_frame.loc[train_index].drop(["bmi_category"],axis=1)
+                strat_test_set = premium_data_frame.loc[test_index].drop(["bmi_category"],axis=1)
 
             train_file_path = os.path.join(self.data_ingestion_config.ingested_train_dir, file_name)
             test_file_path = os.path.join(self.data_ingestion_config.ingested_test_dir, file_name)
@@ -118,10 +111,12 @@ class DataIngestion:
         except Exception as e:
             raise PremiumException(e,sys) from e
 
+
     def initiate_data_ingestion(self) -> DataIngestionArtifact:
         try:
-            raw_data_file_path = self.download_premium_data()
+            zip_file_path = self.download_premium_data()
             #self.extract_tgz_file(tgz_file_path=tgz_file_path)
+            self.extract_zip_file(zip_file_path=zip_file_path)
             return self.split_data_as_train_test()
 
         except Exception as e:
