@@ -64,7 +64,7 @@ class DataValidation:
         try:
             validation_status = False
             logging.info(f"Checking if training and test file fits the schema.")
-            
+
             train_df = pd.read_csv(self.data_ingestion_artifact.train_file_path)
             test_df = pd.read_csv(self.data_ingestion_artifact.test_file_path)
 
@@ -84,8 +84,8 @@ class DataValidation:
                 logging.info(f"Training, Testing and schema.yaml file having same column name.")
                 
                 # checking values of "sex", "region" in schema.yaml file
-                sex_yaml_col_value = sorted(read_yaml_file(file_path = r'C:\Users\harsh\Insurance-Premium-Prediction\config\schema.yaml')['domain_value']['sex'])
-                region_yaml_col_value = sorted(read_yaml_file(file_path = r'C:\Users\harsh\Insurance-Premium-Prediction\config\schema.yaml')['domain_value']['region'])
+                sex_yaml_col_value = sorted(read_yaml_file(file_path = scheme_file_path)['domain_value']['sex'])
+                region_yaml_col_value = sorted(read_yaml_file(file_path = scheme_file_path)['domain_value']['region'])
 
                 #checking values of "sex", "region" in train and test file
                 sex_val_train_df = sorted(train_df["sex"].unique())

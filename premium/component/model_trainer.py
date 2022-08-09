@@ -96,14 +96,13 @@ class ModelTrainer:
             save_object(file_path=trained_model_file_path,obj=premium_model)
 
 
-            model_trainer_artifact=  ModelTrainerArtifact(is_trained=True,message="Model Trained successfully",
-            trained_model_file_path=trained_model_file_path,
-            train_rmse=metric_info.train_rmse,
-            test_rmse=metric_info.test_rmse,
-            train_accuracy=metric_info.train_accuracy,
-            test_accuracy=metric_info.test_accuracy,
-            model_accuracy=metric_info.model_accuracy
-            
+            model_trainer_artifact = ModelTrainerArtifact(is_trained=True,message="Model Trained successfully",
+            trained_model_file_path = trained_model_file_path,
+            train_rmse = metric_info.train_rmse,
+            test_rmse = metric_info.test_rmse,
+            train_accuracy = metric_info.train_accuracy,
+            test_accuracy = metric_info.test_accuracy,
+            model_accuracy = metric_info.model_accuracy
             )
 
             logging.info(f"Model Trainer Artifact: {model_trainer_artifact}")
@@ -116,11 +115,11 @@ class ModelTrainer:
 
 
 
-#loading transformed training and testing datset
-#reading model config file 
-#getting best model on training datset
-#evaludation models on both training & testing datset -->model object
-#loading preprocessing pbject
-#custom model object by combining both preprocessing obj and model obj
-#saving custom model object
-#return model_trainer_artifact
+# loading transformed training and testing datset
+# reading model config file 
+# getting best model on training datset
+# evaludation models on both training & testing datset -->model object
+# loading preprocessing pbject
+# custom model object by combining both preprocessing obj and model obj
+# saving custom model object
+# return model_trainer_artifact
