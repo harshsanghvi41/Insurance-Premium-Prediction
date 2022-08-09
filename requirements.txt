@@ -8,6 +8,4 @@ evidently
 dill
 matplotlib
 seaborn
-nbformat
-ipykernel
 -e .
