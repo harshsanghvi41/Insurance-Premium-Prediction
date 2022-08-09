@@ -48,26 +48,7 @@
 
             </div>
 
-          <!--  <div class="mb-3">
-                <label class="form-label">Total Bedrooms</label>
-                <input class="form-control" type="text" name="total_bedrooms"
-                    placeholder="Enter a value of total_bedrooms" required />
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Population</label>
-                <input class="form-control" type="text" name="population" placeholder="Enter a value of population"
-                    required />
-            </div>
-            <div class="mb-3">
-                <label class="form-label">sex</label>
-                <input class="form-control" type="text" name="sex" placeholder="Gender"
-                    required />
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Median Income</label>
-                <input class="form-control" type="text" name="median_income"
-                    placeholder="Enter a value of median_income" required />
-            </div>-->
+        
             <div class="mb-3">
                 <label class="form-label">Smoker</label>
                 <select class="form-control" name="smoker" placeholder="Are you smoker ?"
@@ -104,7 +85,7 @@
 
             <div class="mb-3">
 
-                <input class="btn btn-primary" type="submit" value="Predict Insurance Premium Value" required />
+                <input class="btn btn-primary" type="submit" value = "Predict Insurance Premium" required />
             </div>
 
         </form>
@@ -115,7 +96,7 @@
             <div class="card-header">
               Insurance Premium Price
             </div>
-            <div class="card-body">
+            <div class="card-body"> 
         {% if context['premium_data'] is not none %}
         <table class="table table-striped">
             <caption>Insurance Premium Prediction </caption>
@@ -138,7 +119,7 @@
 
                 <td>expenses</td>
                 <td>
-                    {{ context['expenses'] }}
+                    {{ context['expenses'][0] }}
                 </td>
             </tr>
         </table>
@@ -151,9 +132,10 @@
          
 
         {% endif %}
-        Go to <a href="/" class="btn btn-primary">Home</a>
+        Go to <a href="/" class="btn btn-primary">Home</a> 
     </div>
 </div>
     </div>
-
+    
+        
     {% endblock %}

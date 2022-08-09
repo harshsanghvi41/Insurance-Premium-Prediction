@@ -102,34 +102,36 @@ def predict():
         PREMIUM_DATA_KEY: None,
         EXPENSES: None
     }
+    try:
+        if request.method == 'POST':
+            age = float(request.form['age'])
+            sex = str(request.form['sex'])
+            bmi = float(request.form['bmi'])
+            children = float(request.form['children'])
+            smoker = str(request.form['smoker'])
+            region = str(request.form['region'])
+            
+            premium_data = PremiumData(age=age,
+                                    sex=sex,
+                                    bmi=bmi,
+                                    children=children,
+                                    smoker=smoker,
+                                    region=region
+                                    
+                                    )
 
-    if request.method == 'POST':
-        age = float(request.form['age'])
-        sex = float(request.form['sex'])
-        bmi = float(request.form['bmi'])
-        children = float(request.form['children'])
-        smoker = float(request.form['smoker'])
-        region = float(request.form['region'])
-        
-        premium_data = PremiumData(age=age,
-                                   sex=sex,
-                                   bmi=bmi,
-                                   children=children,
-                                   smoker=smoker,
-                                   region=region
-                                   
-                                   )
-
-        premium_df = premium_data.get_premium_input_data_frame()
-        premium_predictor = PremiumPredictor(model_dir=MODEL_DIR)
-        expenses = premium_predictor.predict(X=premium_df)
-        context = {
-            PREMIUM_DATA_KEY: premium_data.get_premium_data_as_dict(),
-            EXPENSES: expenses,
-        }
-        return render_template('predict.html', context=context)
-    return render_template("predict.html", context=context)
-
+            premium_df = premium_data.get_premium_input_data_frame()
+            premium_predictor = PremiumPredictor(model_dir=MODEL_DIR)
+            expenses = premium_predictor.predict(X=premium_df)
+            print(expenses)
+            context = {
+                PREMIUM_DATA_KEY: premium_data.get_premium_data_as_dict(),
+                EXPENSES: expenses,
+            }
+            return render_template('predict.html', context=context)
+        return render_template("predict.html", context=context)
+    except Exception as e:
+        return str(PremiumException(e,sys))
 
 @app.route('/saved_models', defaults={'req_path': 'saved_models'})
 @app.route('/saved_models/<path:req_path>')

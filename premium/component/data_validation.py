@@ -63,12 +63,14 @@ class DataValidation:
     def validate_dataset_schema(self) -> bool:
         try:
             validation_status = False
+            logging.info(f"Checking if training and test file fits the schema.")
             
             train_df = pd.read_csv(self.data_ingestion_artifact.train_file_path)
             test_df = pd.read_csv(self.data_ingestion_artifact.test_file_path)
 
             # reading column names from schema.yaml file
-            dict = read_yaml_file(file_path = r'C:\Users\harsh\Insurance-Premium-Prediction\config\schema.yaml')['columns']
+            scheme_file_path = self.data_validation_config.schema_file_path
+            dict = read_yaml_file(file_path = scheme_file_path)['columns']
             
             schema_file_columns = []
             for key in dict.keys():
